@@ -1,0 +1,98 @@
+/* Home.css */
+.white-background {
+  --background: white;
+  background: white;
+}
+
+ion-header {
+  --background: white;
+}
+
+ion-toolbar {
+  --background: white;
+  --color: black;
+  padding: 0;
+}
+
+ion-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-left: 16px;
+  text-align: left;
+}
+
+.settings-icon {
+  font-size: 24px;
+  margin-right: 16px;
+  color: #3880ff;
+}
+
+.custom-searchbar {
+  --background: #f5f5f5;
+  --border-radius: 8px;
+  --box-shadow: none;
+  padding: 8px 16px;
+}
+
+ion-segment {
+  --background: white;
+  padding: 0 16px;
+}
+
+ion-segment-button {
+  --color: #666;
+  --color-checked: #3880ff;
+  --indicator-color: transparent;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  min-width: auto;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid transparent;
+}
+
+ion-segment-button.segment-button-checked {
+  border-bottom: 2px solid #3880ff;
+}
+
+ion-fab-button {
+  --background: #3880ff;
+  --background-activated: #2a6bd3;
+  margin-bottom: 20px;
+  margin-right: 16px;
+}
+/* Gradient background styles */
+.notes-content {
+  --background: none;
+  background: var(--ion-background);
+}
+
+.notes-container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.category-tabs {
+  display: flex;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .category-tabs {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.note-item {
+  --border-radius: 8px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .note-item {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}

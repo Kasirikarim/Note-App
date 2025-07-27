@@ -1,0 +1,53 @@
+/* NewNote.css */
+.note-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  --padding-start: 0;
+}
+
+.note-content {
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
+.voice-record-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ion-color-light-shade);
+}
+
+.voice-record-section h3 {
+  color: var(--ion-color-medium);
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+ion-select {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  width: 100%;
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+ion-button {
+  margin-top: 24px;
+}
+
+/* Dark mode adjustments */
+.dark .note-content,
+.dark ion-select {
+  border-color: var(--ion-color-dark-shade);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .voice-record-section {
+  border-top-color: var(--ion-color-dark-shade);
+}

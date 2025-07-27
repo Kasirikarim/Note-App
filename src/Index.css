@@ -1,0 +1,88 @@
+/* CSS Variables and Base Styles */
+:root {
+  --ion-font-family: Arial;
+  --ion-font-size: 16px;
+  
+  /* Light Mode Gradient */
+  --ion-background: linear-gradient(to bottom, #f5f5f5 0%, #e0f7fa 100%);
+  --ion-background-color: transparent;
+  --ion-text-color: #000000;
+  --ion-text-color-rgb: 0,0,0;
+  --ion-border-color: #dddddd;
+  
+  /* Color Steps */
+  --ion-color-step-50: #f9f9f9;
+  --ion-color-step-100: #f3f3f3;
+  --ion-color-step-150: #ededed;
+}
+
+/* Dark Mode Overrides */
+.dark {
+  --ion-background: linear-gradient(to bottom, #424242 0%, #01579b 100%);
+  --ion-background-color: #121212;
+  --ion-background-color-rgb: 18,18,18;
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255,255,255;
+  --ion-border-color: #222222;
+  
+  --ion-color-step-50: #1e1e1e;
+  --ion-color-step-100: #2a2a2a;
+  --ion-color-step-150: #363636;
+}
+
+/* Core Application Styles */
+body {
+  font-family: var(--ion-font-family);
+  font-size: var(--ion-font-size);
+}
+
+ion-content {
+  background: var(--ion-background) !important;
+  background-attachment: fixed !important;
+}
+
+/* Component Styles */
+ion-item {
+  --background: rgba(255, 255, 255, 0.85);
+  --border-radius: 8px;
+  margin-bottom: 8px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease;
+}
+
+.dark ion-item {
+  --background: rgba(30, 30, 30, 0.85);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Styles */
+ion-header {
+  background: var(--gradient-top, var(--ion-background-color));
+}
+
+/* Searchbar Styles */
+ion-searchbar {
+  --background: rgba(var(--ion-background-color-rgb, 255, 255, 255), 0.8);
+  --border-radius: 8px;
+  --box-shadow: none;
+}
+
+/* Segment Styles */
+ion-segment {
+  --background: transparent;
+}
+
+/* Empty State Styles */
+.empty-state {
+  background: rgba(var(--ion-background-color-rgb, 255, 255, 255), 0.7);
+  padding: 20px;
+  border-radius: 16px;
+  margin: 20px;
+  text-align: center;
+}
+
+/* Transitions */
+ion-item, ion-content, ion-header {
+  transition: background 0.3s ease;
+}
