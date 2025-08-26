@@ -37,7 +37,7 @@ const NewNotePage: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load note data if in edit mode
+ 
   useEffect(() => {
     if (id) {
       const notesString = localStorage.getItem("notes");
@@ -165,17 +165,17 @@ const NewNotePage: React.FC = () => {
       };
 
       if (isEditMode && id) {
-        // Update existing note
+       
         const updatedNotes = existingNotes.map(note => 
           note.id === id ? { 
             ...note, 
             ...noteData,
-            createdAt: note.createdAt // Preserve original
+            createdAt: note.createdAt 
           } : note
         );
         localStorage.setItem("notes", JSON.stringify(updatedNotes));
       } else {
-        // Create new note
+    
         const newNote: Note = {
           ...noteData,
           id: Date.now().toString(),
@@ -217,18 +217,18 @@ const NewNotePage: React.FC = () => {
 
       <IonContent className="ion-padding">
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {/* Title Field */}
+      
           <div>
             <IonLabel position="stacked">Note title *</IonLabel>
             <IonInput
               value={title}
               placeholder="Enter title"
               onIonChange={(e) => setTitle(e.detail.value!)}
-              class="ion-margin-top"
+              className="ion-margin-top"
             />
           </div>
 
-          {/* Content Field */}
+          
           <div>
             <IonLabel position="stacked">Note content</IonLabel>
             <IonTextarea
@@ -237,11 +237,11 @@ const NewNotePage: React.FC = () => {
               autoGrow
               rows={6}
               onIonChange={(e) => setContent(e.detail.value!)}
-              class="ion-margin-top"
+              className="ion-margin-top"
             />
           </div>
 
-          {/* Voice Recorder */}
+          
           <div>
             <IonLabel position="stacked">
               Voice Recording {audioDuration ? `(${formatTime(audioDuration)})` : ''}
@@ -286,7 +286,7 @@ const NewNotePage: React.FC = () => {
                       <IonButton 
                         onClick={playRecording}
                         shape="round"
-                        disabled={!audioURL && !audioBlob || isPlaying}
+                        disabled={(!audioURL && !audioBlob) || isPlaying}
                       >
                         <IonIcon icon={play} slot="start" />
                         Play
@@ -313,14 +313,14 @@ const NewNotePage: React.FC = () => {
             />
           </div>
 
-          {/* Category Selector */}
+          
           <div>
             <IonLabel position="stacked">Category</IonLabel>
             <IonSelect
               value={category}
               interface="action-sheet"
               onIonChange={(e) => setCategory(e.detail.value)}
-              class="ion-margin-top"
+              className="ion-margin-top"
             >
               <IonSelectOption value="Uncategorised">Uncategorised</IonSelectOption>
               <IonSelectOption value="Personal">Personal</IonSelectOption>
@@ -329,11 +329,11 @@ const NewNotePage: React.FC = () => {
             </IonSelect>
           </div>
 
-          {/* Save Button */}
+          
           <IonButton 
             expand="block" 
             onClick={handleSave}
-            class="ion-margin-top"
+            className="ion-margin-top"
             disabled={!title.trim()}
           >
             {isEditMode ? "Update Note" : "Save Note"}

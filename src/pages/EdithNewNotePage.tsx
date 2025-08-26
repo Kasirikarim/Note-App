@@ -3,7 +3,8 @@ import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput,
   IonTextarea, IonButton, IonBackButton, IonButtons, IonSelect, IonSelectOption
 } from "@ionic/react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useIonRouter } from "@ionic/react";
 
 const categories = ["Personal", "Work", "Ideas", "Uncategorised"];
 
@@ -11,7 +12,7 @@ const EditNotePage: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("Uncategorised");
-  const history = useHistory();
+  const router = useIonRouter();
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -34,18 +35,24 @@ const EditNotePage: React.FC = () => {
       n.id === id ? { ...n, title, content, category } : n
     );
     localStorage.setItem("notes", JSON.stringify(notes));
-    history.push("/notes");
+
+    // ✅ Push back to notes page & force refresh
+    router.push("/notes", "back");
   };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start"><IonBackButton defaultHref="/notes" /></IonButtons>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/notes" />
+          </IonButtons>
           <IonTitle>Edit Note</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+
+      {/* ✅ fullscreen prevents overlap with status bar */}
+      <IonContent className="ion-padding" fullscreen>
         <IonInput
           placeholder="Title"
           value={title}
@@ -65,7 +72,9 @@ const EditNotePage: React.FC = () => {
             <IonSelectOption key={cat} value={cat}>{cat}</IonSelectOption>
           ))}
         </IonSelect>
-        <IonButton expand="block" onClick={handleSave}>Save Changes</IonButton>
+        <IonButton expand="block" onClick={handleSave}>
+          Save Changes
+        </IonButton>
       </IonContent>
     </IonPage>
   );

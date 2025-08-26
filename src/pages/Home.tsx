@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonSearchbar,
   IonSegment, IonSegmentButton, IonLabel, IonList, IonItem, IonIcon, 
-  IonFab, IonFabButton, IonButton, IonText
+  IonFab, IonFabButton, IonButton, IonText, useIonViewWillEnter
 } from "@ionic/react";
-import { useHistory } from "react-router-dom";
-import { settingsOutline, add, documentOutline, play, trash } from "ionicons/icons";
+import { useIonRouter } from "@ionic/react";
+import { settingsOutline, add, documentOutline } from "ionicons/icons";
 
 interface Note {
   id: string;
@@ -23,39 +23,43 @@ const NotesPage: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [notes, setNotes] = useState<Note[]>([]);
-  const history = useHistory();
+  const router = useIonRouter();
 
-  // Load notes from localStorage
-  useEffect(() => {
-    const loadNotes = () => {
-      try {
-        const savedNotes = localStorage.getItem('notes');
-        if (savedNotes) {
-          setNotes(JSON.parse(savedNotes));
-        }
-      } catch (error) {
-        console.error("Error loading notes:", error);
+  // 🔹 Shared load function
+  const loadNotes = () => {
+    try {
+      const savedNotes = localStorage.getItem("notes");
+      if (savedNotes) {
+        setNotes(JSON.parse(savedNotes));
       }
-    };
-    
+    } catch (error) {
+      console.error("Error loading notes:", error);
+    }
+  };
+
+  // 🔹 Run when page becomes active (navigated back to)
+  useIonViewWillEnter(() => {
     loadNotes();
-    // Add event listener for storage changes
-    window.addEventListener('storage', loadNotes);
-    return () => window.removeEventListener('storage', loadNotes);
+  });
+
+  // 🔹 Still listen for cross-tab storage changes
+  useEffect(() => {
+    window.addEventListener("storage", loadNotes);
+    return () => window.removeEventListener("storage", loadNotes);
   }, []);
 
-  // Filter notes based on search and category
+  // Filter notes
   const filteredNotes = notes.filter(note =>
     (selectedCategory === "All" || note.category === selectedCategory) &&
     (note.title.toLowerCase().includes(searchText.toLowerCase()) ||
-    note.content.toLowerCase().includes(searchText.toLowerCase()))
+     note.content.toLowerCase().includes(searchText.toLowerCase()))
   );
 
-  // Handle note deletion
+  // Delete
   const handleDelete = (id: string) => {
     const updatedNotes = notes.filter(note => note.id !== id);
     setNotes(updatedNotes);
-    localStorage.setItem('notes', JSON.stringify(updatedNotes));
+    localStorage.setItem("notes", JSON.stringify(updatedNotes));
   };
 
   // Format audio duration
@@ -63,7 +67,7 @@ const NotesPage: React.FC = () => {
     if (!seconds) return "";
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
   return (
@@ -74,33 +78,40 @@ const NotesPage: React.FC = () => {
           <IonButton 
             slot="end" 
             fill="clear"
-            onClick={() => history.push("/settings")}
+            onClick={() => router.push("/settings")}
             aria-label="Settings"
           >
             <IonIcon icon={settingsOutline} />
           </IonButton>
         </IonToolbar>
-        
-        <IonSearchbar
-          placeholder="Search notes..."
-          value={searchText}
-          debounce={300}
-          onIonChange={e => setSearchText(e.detail.value!)}
-        />
-        
-        <IonSegment
-          value={selectedCategory}
-          onIonChange={e => setSelectedCategory(e.detail.value as string)}
-        >
-          {categories.map((cat) => (
-            <IonSegmentButton key={cat} value={cat}>
-              <IonLabel>{cat}</IonLabel>
-            </IonSegmentButton>
-          ))}
-        </IonSegment>
+
+        {/* ✅ Searchbar inside Toolbar */}
+        <IonToolbar>
+          <IonSearchbar
+            placeholder="Search notes..."
+            value={searchText}
+            debounce={300}
+            onIonChange={e => setSearchText(e.detail.value!)}
+          />
+        </IonToolbar>
+
+        {/* ✅ Segment inside Toolbar */}
+        <IonToolbar>
+          <IonSegment
+            value={selectedCategory}
+            onIonChange={e => setSelectedCategory(e.detail.value as string)}
+          >
+            {categories.map((cat) => (
+              <IonSegmentButton key={cat} value={cat}>
+                <IonLabel>{cat}</IonLabel>
+              </IonSegmentButton>
+            ))}
+          </IonSegment>
+        </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
+      {/* ✅ fullscreen prevents overlap with status bar */}
+      <IonContent className="ion-padding" fullscreen>
         {filteredNotes.length === 0 ? (
           <div className="ion-text-center" style={{ marginTop: "40%" }}>
             <IonIcon 
@@ -111,7 +122,7 @@ const NotesPage: React.FC = () => {
               <p>No notes found</p>
               <IonButton 
                 fill="outline"
-                onClick={() => history.push("/new")}
+                onClick={() => router.push("/new")}
               >
                 Create Your First Note
               </IonButton>
@@ -146,7 +157,7 @@ const NotesPage: React.FC = () => {
                 <IonButton 
                   slot="end" 
                   fill="clear"
-                  onClick={() => history.push(`/edit/${note.id}`)}
+                  onClick={() => router.push(`/edit/${note.id}`)}
                 >
                   Edit
                 </IonButton>
@@ -166,7 +177,7 @@ const NotesPage: React.FC = () => {
         <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton 
             color="primary" 
-            onClick={() => history.push("/new")}
+            onClick={() => router.push("/new")}
             aria-label="Add new note"
           >
             <IonIcon icon={add} />

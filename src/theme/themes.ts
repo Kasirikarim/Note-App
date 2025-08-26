@@ -1,7 +1,7 @@
 import { AppSettings } from "../types";
 
 export const applyTheme = (settings: AppSettings) => {
-  // Dark mode
+  
   if (settings.darkMode) {
     document.body.classList.add("dark");
     document.body.style.setProperty("color-scheme", "dark");
@@ -10,7 +10,7 @@ export const applyTheme = (settings: AppSettings) => {
     document.body.style.setProperty("color-scheme", "light");
   }
   
-  // Font settings
+  
   document.documentElement.style.setProperty(
     "--ion-font-size", 
     `${settings.fontSize}px`
